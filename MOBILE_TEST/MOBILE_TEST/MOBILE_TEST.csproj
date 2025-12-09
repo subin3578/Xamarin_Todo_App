@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <ProduceReferenceAssemblyInOutDir>true</ProduceReferenceAssemblyInOutDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />  
+    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TM\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.ServiceModel">
+      <HintPath>..\..\Bins\System.ServiceModel.dll</HintPath>
+    </Reference>
+    <Reference Include="TMXamarinClient">
+      <HintPath>..\..\Bins\TMXamarinClient.dll</HintPath>
+    </Reference>
+    <Reference Include="XBEAN">
+      <HintPath>..\..\Bins\XBEAN.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Todos\BottomSheet\CategoryBottomSheet.xaml.cs">
+      <DependentUpon>CategoryBottomSheet.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Todos\Modal\UpdateTodoModalPage.xaml.cs">
+      <DependentUpon>UpdateTodoModalPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Todos\TodoPage.xaml.cs">
+      <DependentUpon>TodoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Todos\Modal\AddToDoModalPage.xaml.cs">
+      <DependentUpon>AddToDoModalPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\ListViewPage1.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Todos\BottomSheet\CategoryBottomSheet.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Todos\Modal\AddToDoModalPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

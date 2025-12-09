@@ -1,0 +1,451 @@
+﻿<ContentPage
+    x:Class="MOBILE_TEST.Views.UpdateTodoModalPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:effects="clr-namespace:MOBILE_TEST.Effects"
+    xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    BackgroundColor="#80000000">
+    <!--
+        효과 밑줄 제거를 위해 추가한 코드
+        xmlns:effects="clr-namespace:MOBILE_TEST.Effects"
+    -->
+
+    <!--  반투명 오버레이  -->
+
+    <Grid Padding="0" VerticalOptions="Center">
+        <!--  Modal 본체  -->
+        <Frame
+            Padding="0"
+            BackgroundColor="white"
+            CornerRadius="16"
+            HasShadow="False">
+
+            <ScrollView>
+
+                <StackLayout Spacing="0">
+
+                    <!--  헤더  -->
+                    <Grid
+                        Padding="0,0,0,0"
+                        BackgroundColor="White"
+                        ColumnSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="60" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button
+                            Grid.Column="0"
+                            Padding="0"
+                            BackgroundColor="Transparent"
+                            Clicked="OnCancelClicked"
+                            FontSize="17"
+                            Text="✕"
+                            TextColor="#2E3035"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HorizontalOptions="Center"
+                            Text="Edit Todo"
+                            TextColor="#1A1C20"
+                            VerticalOptions="Center" />
+
+                    </Grid>
+
+
+                    <!--  입력 영역  -->
+                    <StackLayout Padding="16" Spacing="16">
+
+                        <!--  제목  -->
+                        <Frame
+                            Padding="8,0"
+                            CornerRadius="12"
+                            HasShadow="False">
+                            <Entry
+                                x:Name="ContentEditor"
+                                BackgroundColor="Transparent"
+                                FontSize="18"
+                                Placeholder="내용을 수정하세요"
+                                PlaceholderColor="#A7A9AF">
+
+                                <Entry.Effects>
+                                    <effects:PlainEntry />
+                                </Entry.Effects>
+                            </Entry>
+                        </Frame>
+
+                        <!--  상태 ( 시작전 | 진행중 | 완료 )  -->
+                        <StackLayout Orientation="Horizontal" Spacing="10">
+
+                            <!--  시작전  -->
+                            <Frame
+                                x:Name="chipNotStarted"
+                                Padding="10,4"
+                                BackgroundColor="#FEE2E2"
+                                CornerRadius="14"
+                                HasShadow="false">
+
+
+                                <StackLayout Orientation="Horizontal" Spacing="6">
+                                    <Label
+                                        x:Name="circleNotStarted"
+                                        FontSize="14"
+                                        Text="●"
+                                        TextColor="#EF4444" />
+                                    <Label
+                                        x:Name="labelNotStarted"
+                                        FontSize="13"
+                                        Text="시작 전"
+                                        TextColor="#B91C1C" />
+                                </StackLayout>
+
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Tap_NotStarted" />
+                                </Frame.GestureRecognizers>
+                            </Frame>
+
+
+                            <!--  진행중  -->
+                            <Frame
+                                x:Name="chipInProgress"
+                                Padding="10,4"
+                                BackgroundColor="#DBEAFE"
+                                CornerRadius="14"
+                                HasShadow="false">
+                                <StackLayout Orientation="Horizontal" Spacing="6">
+                                    <Label
+                                        x:Name="circleInProgress"
+                                        FontSize="14"
+                                        Text="●"
+                                        TextColor="#2563EB" />
+                                    <Label
+                                        x:Name="labelInProgress"
+                                        FontSize="13"
+                                        Text="진행 중"
+                                        TextColor="#1D4ED8" />
+                                </StackLayout>
+
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Tap_InProgress" />
+                                </Frame.GestureRecognizers>
+                            </Frame>
+
+
+                            <!--  완료  -->
+                            <Frame
+                                x:Name="chipCompleted"
+                                Padding="10,4"
+                                BackgroundColor="#D1FAE5"
+                                CornerRadius="14"
+                                HasShadow="False">
+
+                                <StackLayout Orientation="Horizontal" Spacing="6">
+                                    <Label
+                                        x:Name="circleCompleted"
+                                        FontSize="14"
+                                        Text="●"
+                                        TextColor="#059669" />
+                                    <Label
+                                        x:Name="labelCompleted"
+                                        FontSize="13"
+                                        Text="완료"
+                                        TextColor="#047857" />
+                                </StackLayout>
+
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Tap_Completed" />
+                                </Frame.GestureRecognizers>
+                            </Frame>
+
+                        </StackLayout>
+
+                        <!--  카테고리  -->
+                        <StackLayout Spacing="6">
+
+                            <Label
+                                FontSize="13"
+                                Text="카테고리"
+                                TextColor="#5A5E6B" />
+
+                            <!--  선택된 카테고리 박스  -->
+                            <Frame
+                                x:Name="categorySelectedBox"
+                                Padding="12,10"
+                                BackgroundColor="White"
+                                BorderColor="#E1E3E8"
+                                CornerRadius="12"
+                                HasShadow="False">
+
+                                <Grid Padding="6,0,6,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label
+                                        x:Name="labelCategory"
+                                        FontSize="15"
+                                        Text="업무"
+                                        TextColor="#1F1F22" />
+
+                                    <Label
+                                        x:Name="labelCategoryArrow"
+                                        Grid.Column="1"
+                                        FontSize="16"
+                                        Text="▾"
+                                        TextColor="#8C8F94"
+                                        VerticalOptions="Center" />
+                                </Grid>
+
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Category_Tapped" />
+                                </Frame.GestureRecognizers>
+                            </Frame>
+
+
+
+                        </StackLayout>
+
+
+
+
+                        <!--  중요도  -->
+                        <Label
+                            FontSize="13"
+                            Text="중요도"
+                            TextColor="#5A5E6B" />
+
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  높음  -->
+                            <Frame
+                                x:Name="priorityHigh"
+                                Grid.Column="0"
+                                Padding="0"
+                                BackgroundColor="#356BDE"
+                                CornerRadius="12"
+                                HasShadow="False">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Tap_PriorityHigh" />
+                                </Frame.GestureRecognizers>
+                                <Label
+                                    Padding="0,8"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="높음"
+                                    TextColor="White" />
+                            </Frame>
+
+                            <!--  중간  -->
+                            <Frame
+                                x:Name="priorityMedium"
+                                Grid.Column="1"
+                                Padding="0"
+                                BackgroundColor="White"
+                                BorderColor="#E1E3E8"
+                                CornerRadius="12"
+                                HasShadow="False">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Tap_PriorityMedium" />
+                                </Frame.GestureRecognizers>
+                                <Label
+                                    Padding="0,8"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="중간"
+                                    TextColor="#1F1F22" />
+                            </Frame>
+
+                            <!--  낮음  -->
+                            <Frame
+                                x:Name="priorityLow"
+                                Grid.Column="2"
+                                Padding="0"
+                                BackgroundColor="White"
+                                BorderColor="#E1E3E8"
+                                CornerRadius="12"
+                                HasShadow="False">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Tap_PriorityLow" />
+                                </Frame.GestureRecognizers>
+                                <Label
+                                    Padding="0,8"
+                                    FontSize="15"
+                                    HorizontalOptions="Center"
+                                    Text="낮음"
+                                    TextColor="#1F1F22" />
+                            </Frame>
+                        </Grid>
+
+
+                        <!--  날짜  -->
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackLayout Grid.Column="0" Spacing="6">
+                                <Label
+                                    FontSize="13"
+                                    Text="예정일"
+                                    TextColor="#5A5E6B" />
+                                <Frame
+                                    Padding="10"
+                                    BackgroundColor="White"
+                                    CornerRadius="12"
+                                    HasShadow="False"
+                                    WidthRequest="120">
+                                    <StackLayout>
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="StartDate_Tapped" />
+                                        </StackLayout.GestureRecognizers>
+                                        <Label
+                                            x:Name="labelStartDate"
+                                            FontSize="15"
+                                            HorizontalOptions="Center"
+                                            Text="📅"
+                                            TextColor="#1F1F22" />
+                                    </StackLayout>
+                                </Frame>
+                                <DatePicker
+                                    x:Name="datePickerStart"
+                                    DateSelected="StartDatePicker_DateSelected"
+                                    IsVisible="False" />
+                            </StackLayout>
+
+                        </Grid>
+
+
+
+                        <!--  설명  -->
+                        <Label
+                            FontSize="13"
+                            Text="설명"
+                            TextColor="#5A5E6B" />
+
+                        <Frame
+                            Padding="8"
+                            BackgroundColor="White"
+                            BorderColor="#E1E3E8"
+                            CornerRadius="12"
+                            HasShadow="False">
+                            <Editor
+                                x:Name="editorDescription"
+                                AutoSize="TextChanges"
+                                BackgroundColor="White"
+                                FontSize="14"
+                                HeightRequest="110"
+                                Placeholder="추가 설명을 입력하세요 (선택사항)"
+                                PlaceholderColor="#A7A9AF">
+                                <Editor.Effects>
+                                    <effects:PlainEntry />
+                                </Editor.Effects>
+                            </Editor>
+                        </Frame>
+
+
+                        <!--  등록 버튼  -->
+                        <Button
+                            Margin="0,4,0,0"
+                            BackgroundColor="#356BDE"
+                            Clicked="OnSaveClicked"
+                            CornerRadius="12"
+                            FontSize="14"
+                            HeightRequest="38"
+                            HorizontalOptions="FillAndExpand"
+                            Text="등록"
+                            TextColor="White" />
+
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+
+        </Frame>
+        <!--  카테고리 선택  -->
+        <Grid
+            x:Name="Overlay"
+            BackgroundColor="#80000000"
+            HorizontalOptions="FillAndExpand"
+            InputTransparent="False"
+            IsClippedToBounds="False"
+            IsVisible="False"
+            VerticalOptions="FillAndExpand">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="Overlay_Tapped" />
+            </Grid.GestureRecognizers>
+
+
+            <!--  위만 둥근모서리를 위해 PancakeView 사용  -->
+            <pv:PancakeView
+                x:Name="BottomSheet"
+                Padding="20"
+                BackgroundColor="#ffffff"
+                CornerRadius="24,24,0,0"
+                HorizontalOptions="FillAndExpand"
+                IsClippedToBounds="False"
+                TranslationY="400"
+                VerticalOptions="End">
+
+                <StackLayout Spacing="18">
+                    <Label
+                        Padding="0,0,16,0"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="카테고리"
+                        TextColor="#333" />
+
+                    <Label
+                        FontSize="15"
+                        Text="업무"
+                        TextColor="#333">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SelectCategory" />
+                        </Label.GestureRecognizers>
+
+                    </Label>
+
+                    <Label
+                        FontSize="15"
+                        Text="개발"
+                        TextColor="#333">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SelectCategory" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Label
+                        FontSize="15"
+                        Text="기획"
+                        TextColor="#333">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SelectCategory" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Label
+                        FontSize="15"
+                        Text="디자인"
+                        TextColor="#333">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SelectCategory" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                </StackLayout>
+
+            </pv:PancakeView>
+
+        </Grid>
+    </Grid>
+</ContentPage>

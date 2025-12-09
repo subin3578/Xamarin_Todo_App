@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MOBILE_TEST.Views.Todos.BottomSheet.CategoryBottomSheet.CategoryBottomSheet"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView">
+
+    <Grid VerticalOptions="End">
+
+        <!--  Bottom Sheet 본체  -->
+        <pv:PancakeView
+            x:Name="BottomSheet"
+            Padding="20"
+            BackgroundColor="red"
+            CornerRadius="24,24,0,0"
+            TranslationY="400"
+            VerticalOptions="End">
+
+            <StackLayout Spacing="22">
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    Text="카테고리 선택"
+                    TextColor="#1A1C20" />
+
+                <!--  카테고리 목록  -->
+                <StackLayout Spacing="18">
+
+                    <Label
+                        FontSize="16"
+                        Text="개발"
+                        TextColor="#333">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SelectCategory" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Label
+                        FontSize="16"
+                        Text="기획"
+                        TextColor="#333333">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SelectCategory" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Label
+                        FontSize="16"
+                        Text="디자인"
+                        TextColor="#333333">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SelectCategory" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Label
+                        FontSize="16"
+                        Text="기타"
+                        TextColor="#333333">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SelectCategory" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                </StackLayout>
+            </StackLayout>
+
+        </pv:PancakeView>
+    </Grid>
+</ContentPage>

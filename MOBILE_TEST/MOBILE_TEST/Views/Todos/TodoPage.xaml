@@ -1,0 +1,172 @@
+﻿<ContentPage
+    x:Class="MOBILE_TEST.Views.TodoPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="RootPage"
+    BackgroundColor="White"
+    NavigationPage.HasNavigationBar="True">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Clicked="Logout_Clicked"
+            IconImageSource="logout_icon_24.png"
+            Order="Primary"
+            Priority="0" />
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Spacing="20">
+
+        <!--  날짜 + 플러스 버튼  -->
+        <Grid Padding="25" ColumnDefinitions="*,Auto">
+
+            <!--  날짜 / 제목 / TaskCount  -->
+            <StackLayout>
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="{Binding TodayText}"
+                    TextColor="#9CA3AF" />
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="30"
+                    Text="To-Do List"
+                    TextColor="#1C1C1E" />
+
+                <Label
+                    Margin="0,5,0,0"
+                    FontSize="16"
+                    Text="{Binding TaskCountText}"
+                    TextColor="#3B82F6" />
+            </StackLayout>
+            <Frame
+                Grid.Column="1"
+                Padding="0"
+                CornerRadius="28"
+                HasShadow="True"
+                HeightRequest="58"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                WidthRequest="58">
+                <Button
+                    BackgroundColor="Transparent"
+                    Command="{Binding OpenAddModalCommand}"
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    Text="+"
+                    TextColor="#3B82F6" />
+            </Frame>
+
+
+
+
+        </Grid>
+
+        <!--  Todo 리스트  -->
+        <CollectionView
+            BackgroundColor="White"
+            ItemsSource="{Binding Todos}"
+            SelectionMode="None">
+
+            <!--  - 데이터가 없는 경우  -->
+            <CollectionView.EmptyView>
+                <StackLayout Padding="20">
+                    <Label
+                        FontSize="18"
+                        Text="할일을 추가해보세요 😊"
+                        TextColor="Gray" />
+                </StackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <SwipeView>
+                        <!--  할 일 UI  -->
+                        <Grid
+                            Padding="20,15"
+                            BackgroundColor="White"
+                            ColumnDefinitions="30,*,Auto">
+
+                            <Grid.GestureRecognizers>
+
+                                <!--  Single Tap → ToggleDone  -->
+                                <TapGestureRecognizer
+                                    Command="{Binding BindingContext.ToggleDoneCommand, Source={x:Reference RootPage}}"
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1" />
+
+                                <!--  Double Tap → UpdateTodo  -->
+
+                                <TapGestureRecognizer
+                                    Command="{Binding BindingContext.OpenUpdateModalCommand, Source={x:Reference RootPage}}"
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="2" />
+
+                            </Grid.GestureRecognizers>
+
+                            <Label
+                                Grid.Column="0"
+                                FontSize="14"
+                                Text="{Binding Icon}"
+                                TextColor="{Binding IconColor}"
+                                VerticalOptions="Center" />
+
+                            <StackLayout
+                                Grid.Column="1"
+                                Spacing="2"
+                                VerticalOptions="Center">
+                                <Label
+                                    FontSize="12"
+                                    Text="{Binding Category}"
+                                    TextColor="#8C8F94" />
+
+                                <Label
+                                    FontSize="17"
+                                    Text="{Binding Content}"
+                                    TextColor="{Binding TextColor}"
+                                    TextDecorations="{Binding TextDecoration}" />
+
+
+                            </StackLayout>
+
+
+                            <Label
+                                Grid.Column="2"
+                                FontSize="14"
+                                Text="{Binding PriorityStars}"
+                                TextColor="#FFD700"
+                                VerticalOptions="Center" />
+                        </Grid>
+
+                        <!--  SwipeView  -->
+
+                        <SwipeView.RightItems>
+                            <SwipeItems Mode="Reveal">
+                                <SwipeItem
+                                    BackgroundColor="#FF3B30"
+                                    Command="{Binding BindingContext.DeleteCommand, Source={x:Reference RootPage}}"
+                                    CommandParameter="{Binding .}"
+                                    Text="Delete" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <SwipeView.LeftItems>
+                            <SwipeItems>
+                                <SwipeItem
+                                    BackgroundColor="Green"
+                                    Command="{Binding Path=BindingContext.OpenUpdateModalCommand, Source={x:Reference RootPage}}"
+                                    CommandParameter="{Binding .}"
+                                    Text="Edit" />
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+                    </SwipeView>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </StackLayout>
+
+</ContentPage>

@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MOBILE_TEST.Views.LoginPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:effects="clr-namespace:MOBILE_TEST.Effects"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    BackgroundColor="#FFFFFF"
+    mc:Ignorable="d">
+
+    <ContentPage.Content>
+
+        <!--  ✔ 키보드 올라오면 자동으로 스크롤되도록  -->
+        <StackLayout Padding="30" Spacing="10">
+
+
+            <BoxView HeightRequest="10" Opacity="0" />
+
+            <!--  제목  -->
+            <Label
+                FontAttributes="Bold"
+                FontSize="18"
+                HorizontalOptions="Center"
+                Text="로그인"
+                TextColor="#000000" />
+
+            <BoxView HeightRequest="20" Opacity="0" />
+            <!--  입력 폼 카드  -->
+            <StackLayout Spacing="10">
+
+                <!--  아이디  -->
+                <StackLayout Spacing="6">
+                    <Frame
+                        Padding="9,3,3,3"
+                        BackgroundColor="#FFFFFF"
+                        BorderColor="#E0E0E0"
+                        CornerRadius="15"
+                        HasShadow="False">
+                        <Entry
+                            x:Name="entryUserId"
+                            BackgroundColor="Transparent"
+                            FontSize="15"
+                            Placeholder="아이디"
+                            PlaceholderColor="#999999"
+                            Text="{Binding UserId}"
+                            TextChanged="EntryUserId_TextChanged">
+                            <Entry.Effects>
+                                <effects:PlainEntry />
+                            </Entry.Effects>
+                        </Entry>
+                    </Frame>
+
+                    <!--  🔻 아이디 오류 메시지  -->
+                    <Label
+                        Margin="5,0,0,0"
+                        FontSize="12"
+                        IsVisible="{Binding HasError}"
+                        Text="{Binding ErrorMessage}"
+                        TextColor="Red" />
+                </StackLayout>
+                <!--  비밀번호  -->
+                <StackLayout Spacing="6">
+                    <Frame
+                        Padding="9,3,3,3"
+                        BackgroundColor="#FFFFFF"
+                        BorderColor="#E0E0E0"
+                        CornerRadius="15"
+                        HasShadow="False">
+                        <Entry
+                            x:Name="entryPassword"
+                            BackgroundColor="Transparent"
+                            FontSize="15"
+                            IsPassword="True"
+                            Placeholder="비밀번호"
+                            PlaceholderColor="#999999"
+                            Text="{Binding Password}"
+                            TextChanged="Entry_TextChanged">
+                            <Entry.Effects>
+                                <effects:PlainEntry />
+                            </Entry.Effects>
+                        </Entry>
+                    </Frame>
+                </StackLayout>
+
+            </StackLayout>
+
+            <!--  로그인 버튼  -->
+            <Button
+                Clicked="LoginBtn_Clicked"
+                CornerRadius="25"
+                HeightRequest="52"
+                IsEnabled="{Binding CanLogin}"
+                Text="로그인">
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="BackgroundColor" Value="#BDBDBD" />
+                        <!--  비활성(회색)  -->
+                        <Setter Property="TextColor" Value="White" />
+
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding CanLogin}"
+                                TargetType="Button"
+                                Value="True">
+                                <Setter Property="BackgroundColor" Value="#007AFF" />
+                                <!--  활성(파랑)  -->
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+            </Button>
+
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>
