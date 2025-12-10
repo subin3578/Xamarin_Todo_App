@@ -1,11 +1,6 @@
 ﻿using MOBILE_TEST.Models;
-using MOBILE_TEST.Models.UI;
-using MOBILE_TEST.Services;
 using MOBILE_TEST.ViewModels;
 using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -28,7 +23,7 @@ namespace MOBILE_TEST.Views
             BindingContext = vm;
 
             vm.LoadTodoCommand.Execute(userId);
-            
+
         }
 
         // 로그아웃 버튼 클릭

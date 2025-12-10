@@ -18,10 +18,10 @@ namespace MOBILE_TEST.Views
         private string _status = "NotStarted";
         private string _priority = "1";
 
-        public AddTodoModalPage(TodoViewModel viewModel)
+        public AddTodoModalPage()
         {
             InitializeComponent();
-            _vm = viewModel;
+            _vm = App.TodoVM;
 
             // 초기 상태
             UIHelpers.SetStatusChip("NotStarted",

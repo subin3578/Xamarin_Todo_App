@@ -18,6 +18,22 @@ namespace MOBILE_TEST.Models.Server
         public string CATEGORY { get; set; }
 
         //public string DUE_DATE { get; set; }     
+        public override string ToString()
+        {
+            return $"[Todo] " +
+                   $"ID={ID}, " +
+                   $"WriterId={WRITER_ID}, " +
+                   $"Content={TODO_CONTENT}, " +
+                   $"IsDone={ISDONE}, " +
+                   $"CreatedAt={CREATEDAT}, " +
+                   $"Description={DESCRIPTION}, " +
+                   $"StartDate={START_DATE}, " +
+                   $"Priority={PRIORITY}, " +
+                   $"Category={CATEGORY}";
+        }
+
     }
+
+
 }
 

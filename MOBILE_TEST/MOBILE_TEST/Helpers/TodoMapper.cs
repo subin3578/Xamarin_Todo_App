@@ -19,6 +19,7 @@ namespace MOBILE_TEST.Helpers
             Frame chipComp, Label lblComp,
             Frame priHigh, Frame priMed, Frame priLow)
         {
+            
             // 내용
             if (contentEditor != null)
                 contentEditor.Text = todo.Content;

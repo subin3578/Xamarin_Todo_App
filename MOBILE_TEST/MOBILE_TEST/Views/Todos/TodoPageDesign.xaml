@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MOBILE_TEST.Views.Todos.TodoPageDesign"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:plugin="clr-namespace:Xamarin.Plugin.Calendar.Controls;assembly=Xamarin.Plugin.Calendar"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    BackgroundColor="#FAFAFA">
+
+    <StackLayout Padding="0,20" Spacing="0">
+        <Label
+            x:Name="MonthTitle"
+            Margin="0,0,0,10"
+            FontAttributes="Bold"
+            FontSize="22"
+            HorizontalOptions="Center"
+            TextColor="#1C1C1C" />
+        <!--  📌 1) 달력 (One UI 스타일: 더 넓고 깔끔)  -->
+        <Frame
+            Padding="0"
+            BackgroundColor="White"
+            HasShadow="False">
+
+            <plugin:Calendar
+                x:Name="CalendarView"
+                Padding="10,0"
+                DayViewCornerRadius="25"
+                DayViewSize="45"
+                DaysTitleColor="#6B6B6B"
+                DeselectedDayTextColor="#1C1C1C"
+                EventIndicatorColor="#A5C9FF"
+                EventIndicatorSelectedColor="#2563EB"
+                EventIndicatorType="Background"
+                Events="{Binding TodoEvents}"
+                HorizontalOptions="FillAndExpand"
+                MaximumDate="{Binding MaximumDate}"
+                MinimumDate="{Binding MinimumDate}"
+                Month="{Binding Month}"
+                MonthLabelColor="Black"
+                OtherMonthDayColor="#D0D0D0"
+                OtherMonthDayIsVisible="True"
+                SelectedDate="{Binding SelectedDate}"
+                SelectedDayBackgroundColor="#2563EB"
+                SelectedDayTextColor="White"
+                ShowYearPicker="False"
+                TodayFillColor="LightGray"
+                TodayOutlineColor="Transparent"
+                VerticalOptions="FillAndExpand"
+                Year="{Binding Year}">
+
+                <!--  헤더 (12월)  -->
+                <plugin:Calendar.HeaderSectionTemplate Padding="16">
+                    <DataTemplate>
+                        <Label
+                            Grid.Column="0"
+                            Padding="0,12"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Month, StringFormat='{}{0}월'}"
+                            TextColor="#1C1C1C"
+                            VerticalOptions="Center" />
+                    </DataTemplate>
+                </plugin:Calendar.HeaderSectionTemplate>
+
+                <!--  이벤트 목록 뜨는 곳  -->
+                <plugin:Calendar.EventTemplate>
+                    <DataTemplate>
+                        <StackLayout
+                            Padding="15,0,0,0"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="Medium"
+                                Text="{Binding Name}" />
+                            <Label
+                                FontSize="Small"
+                                LineBreakMode="WordWrap"
+                                Text="{Binding Description}" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BindingContext.EventSelectedCommand}" CommandParameter="{Binding .}" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </DataTemplate>
+                </plugin:Calendar.EventTemplate>
+            </plugin:Calendar>
+        </Frame>
+
+
+    </StackLayout>
+
+</ContentPage>

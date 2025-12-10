@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MOBILE_TEST.Views.SimplePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MOBILE_TEST.ViewModels"
+    xmlns:plugin="clr-namespace:Xamarin.Plugin.Calendar.Controls;assembly=Xamarin.Plugin.Calendar"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    x:Name="simpleCalendarPage">
+
+    <ContentPage.BindingContext>
+        <local:SimplePageViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid>
+
+        <StackLayout Padding="12,0" Spacing="0">
+
+
+
+            <plugin:Calendar
+                x:Name="CalendarView"
+                EventIndicatorSelectedColor="#3B82F6"
+                EventIndicatorSelectedTextColor="White"
+                Events="{Binding Events}"
+                HorizontalOptions="FillAndExpand"
+                MaximumDate="{Binding MaximumDate}"
+                MinimumDate="{Binding MinimumDate}"
+                Month="{Binding Month}"
+                MonthLabelColor="Black"
+                OtherMonthDayIsVisible="False"
+                SelectedDate="{Binding SelectedDate}"
+                SelectedDateColor="Black"
+                SelectedDateTextFormat="yyyy년 M월 dd일"
+                SelectedDayBackgroundColor="#2563EB"
+                SelectedDayTextColor="White"
+                ShowYearPicker="False"
+                TodayFillColor="LightGray"
+                TodayOutlineColor="Transparent"
+                VerticalOptions="FillAndExpand"
+                Year="{Binding Year}">
+
+                <!--  Header Section  -->
+                <plugin:Calendar.HeaderSectionTemplate Padding="16">
+                    <DataTemplate>
+
+                        <Label
+                            Grid.Column="0"
+                            Padding="0,12"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Month, StringFormat='{}{0}월'}"
+                            TextColor="#1C1C1C"
+                            VerticalOptions="Center" />
+                    </DataTemplate>
+                </plugin:Calendar.HeaderSectionTemplate>
+
+
+                <!--  Event Section  -->
+                <plugin:Calendar.EventTemplate>
+
+                    <DataTemplate>
+
+                        <Grid
+                            Padding="20,10"
+                            BackgroundColor="White"
+                            ColumnDefinitions="20,*,Auto">
+
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding BindingContext.IsDoneCommand, Source={x:Reference simpleCalendarPage}}"
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1"
+                                    Tapped="OnItemTapped" />
+                            </Grid.GestureRecognizers>
+                            <Label
+                                Grid.Column="0"
+                                FontSize="14"
+                                Text="{Binding Icon}"
+                                TextColor="{Binding IconColor}"
+                                VerticalOptions="Center" />
+                            <StackLayout
+                                Grid.Column="1"
+                                Padding="15,0,0,0"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand">
+
+
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="Medium"
+                                    Text="{Binding Content}"
+                                    TextColor="{Binding TextColor}"
+                                    TextDecorations="{Binding TextDecoration}" />
+
+                                <Label
+                                    FontSize="Small"
+                                    LineBreakMode="WordWrap"
+                                    Text="{Binding Description}" />
+
+
+                            </StackLayout>
+
+                        </Grid>
+                    </DataTemplate>
+                </plugin:Calendar.EventTemplate>
+            </plugin:Calendar>
+        </StackLayout>
+
+        <Frame
+            Margin="20"
+            Padding="0"
+            BackgroundColor="White"
+            CornerRadius="28"
+            HasShadow="True"
+            HeightRequest="58"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            WidthRequest="58">
+
+            <Button
+                BackgroundColor="Transparent"
+                Command="{Binding OpenAddModalCommand}"
+                FontAttributes="Bold"
+                FontSize="26"
+                Text="+"
+                TextColor="#3B82F6" />
+        </Frame>
+    </Grid>
+
+
+
+
+
+</ContentPage>

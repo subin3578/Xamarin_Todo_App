@@ -24,6 +24,7 @@ namespace MOBILE_TEST.ViewModels
         public ObservableCollection<TodoModel> Todos { get; set; }
 
         public Command LoadTodoCommand { get; }
+
         public Command<TodoModel> AddTodoCommand { get; }
         public Command<TodoModel> DeleteCommand { get; }
         public Command<TodoModel> ToggleDoneCommand { get; }
@@ -32,8 +33,29 @@ namespace MOBILE_TEST.ViewModels
         public Command OpenAddModalCommand { get; }
         public Command<TodoModel> OpenUpdateModalCommand { get; }
 
-
-
+        public Command LoadDummyEventsCommand { get; }
+        public Dictionary<DateTime, List<Event>> TodoEvents
+        {
+            get => _todoEvents;
+            set
+            {
+                _todoEvents = value;
+                OnPropertyChanged();
+            }
+        }
+        public Dictionary<DateTime, List<Event>> _todoEvents { get; set; }
+        public DateTime _selectedDate = DateTime.Today;
+        public int Month { get; set; } = DateTime.Today.Month;
+        public int Year { get; set; } = DateTime.Today.Year;
+        public DateTime SelectedDate
+        {
+            get => _selectedDate;
+            set
+            {
+                _selectedDate = value;
+                OnPropertyChanged();   // 화면 갱신 필수
+            }
+        }
 
         public string currentUser;
         public string TodayText => DateTime.Now.ToString("dddd, dd MMM");
@@ -59,17 +81,18 @@ namespace MOBILE_TEST.ViewModels
             DeleteCommand = new Command<TodoModel>(DeleteTodo);
             UpdateTodoCommand = new Command<TodoModel>(UpdateTodo);
             ToggleDoneCommand = new Command<TodoModel>(UpdateTodoIsDone);
+           
 
             // 모달 열기
             OpenAddModalCommand = new Command(OpenAddModal);
             OpenUpdateModalCommand = new Command<TodoModel>(OpenUpdateModal);
-          
 
         }
-
+        
+        // 이코드는 xaml.cs 인지 아니면 VM 인지 공부
         private async void OpenAddModal()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTodoModalPage(this));
+            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTodoModalPage());
         }
 
         private async void OpenUpdateModal(TodoModel todo)
