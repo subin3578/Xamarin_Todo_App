@@ -80,14 +80,7 @@ namespace MOBILE_TEST.Models.UI
         // ---------- UI 스타일 적용 ----------
         public void ApplyStyle()
         {
-            if (IsDone == "1")
-            {
-                Icon = "🔄";
-                IconColor = "green";
-                TextColor = "#374151";
-                TextDecoration = TextDecorations.None;
-            }
-            else if (IsDone == "2")
+        if (IsDone == "2")
             {
                 Icon = "✅";
                 IconColor = "blue";

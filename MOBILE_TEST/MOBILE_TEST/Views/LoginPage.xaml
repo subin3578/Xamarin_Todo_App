@@ -11,7 +11,6 @@
 
     <ContentPage.Content>
 
-        <!--  ✔ 키보드 올라오면 자동으로 스크롤되도록  -->
         <StackLayout Padding="30" Spacing="10">
 
 

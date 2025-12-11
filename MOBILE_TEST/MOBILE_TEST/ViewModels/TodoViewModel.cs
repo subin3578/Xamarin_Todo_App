@@ -92,7 +92,6 @@ namespace MOBILE_TEST.ViewModels
         // 이코드는 xaml.cs 인지 아니면 VM 인지 공부
         private async void OpenAddModal()
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new AddTodoModalPage());
         }
 
         private async void OpenUpdateModal(TodoModel todo)

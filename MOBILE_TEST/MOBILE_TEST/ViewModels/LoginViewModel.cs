@@ -92,7 +92,7 @@ namespace MOBILE_TEST.ViewModels
                     );
 
                     // 페이지 이동도 가능
-                    Application.Current.MainPage = new NavigationPage(new TodoPage());
+                    Application.Current.MainPage = new NavigationPage(new SimplePage());
 
 
                     // 추가 로직: 로그인 정보 저장 or 페이지 이동

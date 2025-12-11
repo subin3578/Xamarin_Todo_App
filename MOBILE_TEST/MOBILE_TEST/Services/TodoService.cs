@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using TMXamarinClient;
+using TMXamarinClient.ContractTypes;
 namespace MOBILE_TEST.Services
 {
     internal class TodoService
@@ -36,31 +37,35 @@ namespace MOBILE_TEST.Services
         /// <summary>
         /// TODO 삽입
         /// </summary>
-        public async Task<bool> InsertTodo(TodoModel todo)
+        public async Task<string> InsertTodo(TodoModel todo)
         {
+            try
+            {
+                var result = COMMService.TM.UsrSvc.InsertTodo(todo);
 
-            var result = COMMService.TM.UsrSvc.InsertTodo(todo);
-
-            if (!result.IsSuccess || string.IsNullOrWhiteSpace(result.ResultString))
-                throw new Exception(result.ErrorString);
-
-            string response = result.ResultString;
-
-
-     
-            if (response.StartsWith("No") || response.StartsWith("Error"))
-                throw new Exception(response);
+                // 결과 문자열이 아예 없는 경우 → 실패
+                if (string.IsNullOrWhiteSpace(result.ResultString))
+                    throw new Exception(result.ErrorString ?? "Unknown Error");
 
 
-     
-            if (response.StartsWith("OK") || response.StartsWith("Success"))
-                return true;
+                if (!result.IsSuccess)
+                    throw new Exception(result.ErrorString ?? "Insert failed");
 
-            return false;
+                string newId = result.ResultString;
+
+                if (string.IsNullOrWhiteSpace(newId))
+                    throw new Exception("New ID is empty");
+
+                return newId;   // 성공 시 newId 반환
+            }
+            catch (Exception ex)
+            {
+                return $"Error - {ex.Message}";
+            }
         }
 
         /// <summary>
-            /// TODO 삭제
+        /// TODO 삭제
         /// </summary>
         public async Task<bool> DeleteTodo(String todoId)
         {

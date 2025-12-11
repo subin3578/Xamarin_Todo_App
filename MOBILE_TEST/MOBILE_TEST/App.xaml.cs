@@ -13,6 +13,8 @@ namespace MOBILE_TEST
     {
         public static INavigationService Nav { get; private set; }
         public static TodoViewModel TodoVM { get; private set; }
+
+
         public App()
         {
             InitializeComponent();
@@ -23,9 +25,10 @@ namespace MOBILE_TEST
 
             // 의존성 주입을 위해
             TodoVM = new TodoViewModel();
+    
             Nav = new NavigationService();
             
-            MainPage = new NavigationPage(new SimplePage())
+            MainPage = new NavigationPage(new LoginPage())
             {
                 BarBackgroundColor = Color.White,
             };

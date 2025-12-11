@@ -97,7 +97,9 @@
     <AndroidResource Include="Resources\drawable\icon_about.png" />
     <AndroidResource Include="Resources\drawable\icon_feed.png" />
     <AndroidResource Include="Resources\drawable\todo_icon.png" />
-    <AndroidResource Include="Resources\drawable\logout_icon_24.png" />
+    <AndroidResource Include="Resources\drawable\arrowdown_24.png" />
+  <AndroidResource Include="Resources\drawable\arrowup_24.png" />
+  <AndroidResource Include="Resources\drawable\logout_icon_24.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MOBILE_TEST\MOBILE_TEST.csproj">
@@ -106,6 +108,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\drawable\arrowdown_24.png" />
+    <Content Include="Resources\drawable\arrowup_24.png" />
     <Content Include="Resources\drawable\logout_icon_24.png" />
     <Content Include="Resources\drawable\todo_icon.png" />
   </ItemGroup>

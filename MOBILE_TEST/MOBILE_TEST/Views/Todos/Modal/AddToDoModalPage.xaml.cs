@@ -1,4 +1,5 @@
 ﻿using MOBILE_TEST.Helpers;
+using MOBILE_TEST.Models;
 using MOBILE_TEST.Models.Server;
 using MOBILE_TEST.Models.UI;
 using MOBILE_TEST.ViewModels;
@@ -13,15 +14,20 @@ namespace MOBILE_TEST.Views
     public partial class AddTodoModalPage : ContentPage
     {
         private readonly TodoViewModel _vm;
+        private readonly SimplePageViewModel _svm;
 
+
+
+        public DateTime selectedDate = DateTime.Today;
         
         private string _status = "NotStarted";
         private string _priority = "1";
 
-        public AddTodoModalPage()
+        public AddTodoModalPage(DateTime selectedDate,SimplePageViewModel svm)
         {
             InitializeComponent();
             _vm = App.TodoVM;
+            _svm = svm;
 
             // 초기 상태
             UIHelpers.SetStatusChip("NotStarted",
@@ -32,8 +38,8 @@ namespace MOBILE_TEST.Views
             UIHelpers.SetPriority("3",
                 priorityHigh, priorityMedium, priorityLow);
 
-            datePickerStart.Date = DateTime.Today;
-            labelStartDate.Text = DateTime.Today.ToString("yy년 M월 dd일 (ddd)", new CultureInfo("ko-KR"));
+            datePickerStart.Date = selectedDate;
+            labelStartDate.Text = selectedDate.ToString("yy년 M월 dd일 (ddd)", new CultureInfo("ko-KR"));
 
 
         }
@@ -55,8 +61,9 @@ namespace MOBILE_TEST.Views
             // UI → 모델로 변환
             TodoModel todo = new TodoModel
             {
-           
+
                 Content = entryTask.Text,
+                WriterId = Session.CurrentUser.QM05IPID,
                 Description = editorDescription.Text,
                 Startdate = datePickerStart.Date.ToString("yyyy/MM/dd"),
                 Category = labelCategory.Text,
@@ -67,9 +74,7 @@ namespace MOBILE_TEST.Views
 
             try
             {
-
-                _vm.AddTodoCommand.Execute(todo);
-
+                _svm.AddCommand.Execute(todo);
                 await Navigation.PopModalAsync();
             }
 

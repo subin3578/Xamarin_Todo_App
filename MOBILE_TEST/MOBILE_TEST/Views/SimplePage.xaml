@@ -14,12 +14,12 @@
 
     <Grid>
 
-        <StackLayout Padding="12,0" Spacing="0">
-
-
+        <StackLayout Padding="0" Spacing="0">
 
             <plugin:Calendar
                 x:Name="CalendarView"
+                AnimateCalendar="True"
+                CalendarSectionShown="{Binding IsCalendarVisible}"
                 EventIndicatorSelectedColor="#3B82F6"
                 EventIndicatorSelectedTextColor="White"
                 Events="{Binding Events}"
@@ -35,20 +35,23 @@
                 SelectedDayBackgroundColor="#2563EB"
                 SelectedDayTextColor="White"
                 ShowYearPicker="False"
+                SwipeToChangeMonthEnabled="True"
+                SwipeUpCommand="{Binding BindingContext.ToggleCalendarCommand, Source={x:Reference simpleCalendarPage}}"
+                SwipeUpToHideEnabled="False"
                 TodayFillColor="LightGray"
                 TodayOutlineColor="Transparent"
                 VerticalOptions="FillAndExpand"
                 Year="{Binding Year}">
 
                 <!--  Header Section  -->
-                <plugin:Calendar.HeaderSectionTemplate Padding="16">
+                <plugin:Calendar.HeaderSectionTemplate>
                     <DataTemplate>
 
                         <Label
                             Grid.Column="0"
-                            Padding="0,12"
+                            Padding="0,8,0,12"
                             FontAttributes="Bold"
-                            FontSize="18"
+                            FontSize="17"
                             HorizontalTextAlignment="Center"
                             Text="{Binding Month, StringFormat='{}{0}월'}"
                             TextColor="#1C1C1C"
@@ -56,52 +59,94 @@
                     </DataTemplate>
                 </plugin:Calendar.HeaderSectionTemplate>
 
+                <plugin:Calendar.FooterSectionTemplate>
+                    <DataTemplate>
+                        <Grid Padding="12">
+
+                            <!--  제스처 등록  -->
+                            <Grid
+                                ColumnDefinitions="Auto, Auto"
+                                ColumnSpacing="6"
+                                HeightRequest="25">
+
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.ToggleCalendarCommand, Source={x:Reference simpleCalendarPage}}" Tapped="OnItemTapped" />
+                                </Grid.GestureRecognizers>
+                                <!--  날짜  -->
+                                <Label
+                                    Grid.Column="0"
+                                    FontAttributes="Bold"
+                                    FontSize="16"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding SelectedDate, StringFormat='{0:yyyy년 M월 dd일}'}"
+                                    TextColor="#1C1C1C"
+                                    VerticalOptions="Center" />
+                                <!--  아이콘 (↑ / ↓)  -->
+                                <Image
+                                    Grid.Column="1"
+                                    HeightRequest="20"
+                                    HorizontalOptions="Start"
+                                    Source="{Binding CalendarArrowIcon}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="20" />
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </plugin:Calendar.FooterSectionTemplate>
 
                 <!--  Event Section  -->
-                <plugin:Calendar.EventTemplate>
-
+                <plugin:Calendar.EventTemplate Padding="-12">
+                    <!--  Event list  -->
                     <DataTemplate>
+                        <Grid BackgroundColor="White">
+                            <SwipeView>
 
-                        <Grid
-                            Padding="20,10"
-                            BackgroundColor="White"
-                            ColumnDefinitions="20,*,Auto">
+                                <Grid
+                                    Padding="20,10"
+                                    BackgroundColor="White"
+                                    ColumnDefinitions="20,*,Auto">
 
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{Binding BindingContext.IsDoneCommand, Source={x:Reference simpleCalendarPage}}"
-                                    CommandParameter="{Binding .}"
-                                    NumberOfTapsRequired="1"
-                                    Tapped="OnItemTapped" />
-                            </Grid.GestureRecognizers>
-                            <Label
-                                Grid.Column="0"
-                                FontSize="14"
-                                Text="{Binding Icon}"
-                                TextColor="{Binding IconColor}"
-                                VerticalOptions="Center" />
-                            <StackLayout
-                                Grid.Column="1"
-                                Padding="15,0,0,0"
-                                HorizontalOptions="FillAndExpand"
-                                VerticalOptions="FillAndExpand">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding BindingContext.IsDoneCommand, Source={x:Reference simpleCalendarPage}}"
+                                            CommandParameter="{Binding .}"
+                                            NumberOfTapsRequired="1"
+                                            Tapped="OnItemTapped" />
+                                    </Grid.GestureRecognizers>
+                                    <Label
+                                        Grid.Column="0"
+                                        FontSize="14"
+                                        Text="{Binding Icon}"
+                                        TextColor="{Binding IconColor}"
+                                        VerticalOptions="Center" />
+                                    <StackLayout
+                                        Grid.Column="1"
+                                        Padding="15,0,0,0"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="FillAndExpand">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="Medium"
+                                            Text="{Binding Content}"
+                                            TextColor="{Binding TextColor}"
+                                            TextDecorations="{Binding TextDecoration}" />
 
-
-                                <Label
-                                    FontAttributes="Bold"
-                                    FontSize="Medium"
-                                    Text="{Binding Content}"
-                                    TextColor="{Binding TextColor}"
-                                    TextDecorations="{Binding TextDecoration}" />
-
-                                <Label
-                                    FontSize="Small"
-                                    LineBreakMode="WordWrap"
-                                    Text="{Binding Description}" />
-
-
-                            </StackLayout>
-
+                                        <Label
+                                            FontSize="Small"
+                                            LineBreakMode="WordWrap"
+                                            Text="{Binding Description}" />
+                                    </StackLayout>
+                                </Grid>
+                                <SwipeView.RightItems>
+                                    <SwipeItems Mode="Reveal">
+                                        <SwipeItem
+                                            BackgroundColor="#FF3B30"
+                                            Command="{Binding BindingContext.DeleteCommand, Source={x:Reference simpleCalendarPage}}"
+                                            CommandParameter="{Binding .}"
+                                            Text="Delete" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                            </SwipeView>
                         </Grid>
                     </DataTemplate>
                 </plugin:Calendar.EventTemplate>
@@ -122,6 +167,7 @@
             <Button
                 BackgroundColor="Transparent"
                 Command="{Binding OpenAddModalCommand}"
+                CommandParameter="{Binding SelectedDate}"
                 FontAttributes="Bold"
                 FontSize="26"
                 Text="+"

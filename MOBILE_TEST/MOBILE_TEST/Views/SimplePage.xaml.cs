@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MOBILE_TEST.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +18,9 @@ namespace MOBILE_TEST.Views
         {
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
-
         }
+
+        // 누를 때 애니메이션
         private async void OnItemTapped(object sender, EventArgs e)
         {
             if (sender is View view)
@@ -25,6 +28,7 @@ namespace MOBILE_TEST.Views
                 await AnimateTap(view);
             }
         }
+
         private async Task AnimateTap(View view)
         {
             const uint duration = 50; // 더 빠르게
@@ -36,35 +40,11 @@ namespace MOBILE_TEST.Views
             // 즉시 복귀 (더 빠르게)
             await view.ScaleTo(originalScale, 80, Easing.CubicIn);
         }
-        double _startY;
+    
 
-        private async void OnSwipe(object sender, PanUpdatedEventArgs e)
-        {
-            switch (e.StatusType)
-            {
-                case GestureStatus.Started:
-                    _startY = e.TotalY;
-                    break;
 
-                case GestureStatus.Completed:
-                    double deltaY = e.TotalY - _startY;
 
-                    // 👆 위로 스와이프: 캘린더 숨기기
-                    if (deltaY < -80 && CalendarView.IsVisible)
-                    {
-                        await CalendarView.FadeTo(0, 150);
-                        CalendarView.IsVisible = false;
-                    }
-
-                    // 👇 아래로 스와이프: 캘린더 보이기
-                    else if (deltaY > 80 && !CalendarView.IsVisible)
-                    {
-                        CalendarView.IsVisible = true;
-                        await CalendarView.FadeTo(1, 150);
-                    }
-
-                    break;
-            }
-        }
     }
+
+
 }
